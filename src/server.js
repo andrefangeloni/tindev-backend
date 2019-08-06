@@ -1,9 +1,15 @@
 const express = require("express");
-
+const mongoose = require("mongoose");
+const routes = require("./routes");
 const server = express();
 
-server.get("/", (req, res) => {
-  return res.send(`Hello ${req.query.name}`);
-});
+mongoose.connect(
+  "mongodb+srv://dba:dba1234@cluster0-vomcv.mongodb.net/omnistack8?retryWrites=true&w=majority",
+  {
+    useNewUrlParser: true
+  }
+);
 
+server.use(express.json());
+server.use(routes);
 server.listen(3333);
