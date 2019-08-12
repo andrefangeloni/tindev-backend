@@ -5,6 +5,7 @@ const routes = require("./routes");
 const app = express();
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
+require("custom-env").env();
 
 const connectedUsers = {};
 
@@ -14,12 +15,7 @@ io.on("connection", socket => {
   connectedUsers[user] = socket.id;
 });
 
-mongoose.connect(
-  "mongodb+srv://dba:dba1234@cluster0-vomcv.mongodb.net/omnistack8?retryWrites=true&w=majority",
-  {
-    useNewUrlParser: true
-  }
-);
+mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true });
 
 app.use((req, res, next) => {
   req.io = io;
